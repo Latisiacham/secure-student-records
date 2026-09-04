@@ -1,4 +1,4 @@
-package com.securestudent;
+package securestudent;
 
 import java.util.Scanner;
 
