@@ -6,6 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        StudentManager manager = new StudentManager();
         int choice = 0;
 
         while (choice != 4) {
@@ -21,9 +22,37 @@ public class Main {
             choice = scanner.nextInt();
             
             if (choice == 1) {
-                System.out.println("Add student selected.");
+
+                System.out.print("Enter student ID: ");
+                int id = scanner.nextInt();
+                scanner.nextLine();
+
+                System.out.print("Enter student name: ");
+                String name = scanner.nextLine();
+
+                System.out.print("Enter student email: ");
+                String email = scanner.nextLine();
+
+                Student student = new Student(id, name, email);
+                manager.addStudent(student);
+
+                System.out.println("Student added successfully.");
+
             } else if (choice == 2) {
-                System.out.println("View students selected.");
+                if (manager.getStudents().isEmpty()) {
+                    System.out.println("No students found.");
+                } else {
+                    System.out.println("\n=== Students ===");
+
+                    for (Student student : manager.getStudents()) {
+                        System.out.println(
+                            student.getId() + " - "
+                            + student.getName() + " - "
+                            + student.getEmail()
+                        );
+                    }
+                }
+
             } else if (choice == 3) {
                 System.out.println("Search student selected.");
             } else if (choice == 4) {
