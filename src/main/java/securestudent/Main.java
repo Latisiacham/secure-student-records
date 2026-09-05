@@ -54,7 +54,34 @@ public class Main {
                 }
 
             } else if (choice == 3) {
-                System.out.println("Search student selected.");
+
+                scanner.nextLine();
+
+                System.out.print("Enter student ID, name, or email: ");
+                String search = scanner.nextLine();
+
+                boolean found = false;
+
+                for (Student student : manager.getStudents()) {
+
+                    if (String.valueOf(student.getId()).equalsIgnoreCase(search)
+                            || student.getName().equalsIgnoreCase(search)
+                            || student.getEmail().equalsIgnoreCase(search)) {
+
+                        System.out.println("\nStudent found:");
+                        System.out.println("ID: " + student.getId());
+                        System.out.println("Name: " + student.getName());
+                        System.out.println("Email: " + student.getEmail());
+
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    System.out.println("Student not found.");
+                }
+
             } else if (choice == 4) {
                 System.out.println("Goodbye!");
             } else {
