@@ -14,4 +14,16 @@ public class StudentTest {
         assertEquals("Bonita", student.getName());
         assertEquals("bonita@example.com", student.getEmail());
     }
+
+    @Test
+    void shouldAddStudent() {
+        StudentManager manager = new StudentManager();
+
+        Student student = new Student(1, "Bonita", "bonita@example.com");
+
+        manager.addStudent(student);
+
+        assertEquals(1, manager.getStudents().size());
+        assertEquals("Bonita", manager.getStudents().get(0).getName());
+    }
 }

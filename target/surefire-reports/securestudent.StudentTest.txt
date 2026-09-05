@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: securestudent.StudentTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.331 s -- in securestudent.StudentTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.421 s -- in securestudent.StudentTest
