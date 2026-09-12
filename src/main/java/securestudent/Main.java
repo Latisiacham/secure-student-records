@@ -7,6 +7,14 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         StudentManager manager = new StudentManager();
+
+        StudentFileManager fileManager = new StudentFileManager();
+        fileManager.createFileIfMissing();
+
+        for (Student student : fileManager.loadStudents()) {
+            manager.addStudent(student);
+        }
+
         int choice = 0;
 
         while (choice != 4) {
@@ -34,7 +42,9 @@ public class Main {
                 String email = scanner.nextLine();
 
                 Student student = new Student(id, name, email);
+
                 manager.addStudent(student);
+                fileManager.saveStudent(student);
 
                 System.out.println("Student added successfully.");
 
