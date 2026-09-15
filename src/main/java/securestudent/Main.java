@@ -35,11 +35,22 @@ public class Main {
                 int id = scanner.nextInt();
                 scanner.nextLine();
 
+                if (manager.studentIdExists(id)) {
+                    System.out.println("Student ID already exists.");
+                    continue;
+                }
+
+
                 System.out.print("Enter student name: ");
                 String name = scanner.nextLine();
 
                 System.out.print("Enter student email: ");
                 String email = scanner.nextLine();
+                
+                if (!manager.isValidEmail(email)) {
+                    System.out.println("Invalid email address.");
+                    continue;
+                }
 
                 Student student = new Student(id, name, email);
 

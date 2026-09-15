@@ -26,4 +26,24 @@ public class StudentTest {
         assertEquals(1, manager.getStudents().size());
         assertEquals("Bonita", manager.getStudents().get(0).getName());
     }
+
+    @Test
+    void shouldValidateEmail() {
+        StudentManager manager = new StudentManager();
+
+        assertEquals(true, manager.isValidEmail("student@example.com"));
+        assertEquals(false, manager.isValidEmail("studentexample.com"));
+        assertEquals(false, manager.isValidEmail("student @example.com"));
+    }
+
+    @Test
+    void shouldDetectDuplicateStudentId() {
+        StudentManager manager = new StudentManager();
+
+        Student student = new Student(1, "Bonita", "bonita@example.com");
+        manager.addStudent(student);
+
+        assertEquals(true, manager.studentIdExists(1));
+        assertEquals(false, manager.studentIdExists(2));
+    }
 }
