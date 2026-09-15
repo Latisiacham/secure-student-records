@@ -46,15 +46,24 @@ public class StudentFileManager {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                if (parts.length == 3) {
+                if (parts.length != 3) {
+                    System.out.println("Skipping invalid student record.");
+                    continue;
+                }
+
+                try {
                     int id = Integer.parseInt(parts[0]);
                     String name = parts[1];
                     String email = parts[2];
 
                     students.add(new Student(id, name, email));
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Skipping invalid student record.");
                 }
+                
             }
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException e) {
             System.out.println("Unable to load student data.");
         }
 
