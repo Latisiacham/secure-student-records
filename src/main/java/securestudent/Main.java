@@ -15,7 +15,83 @@ public class Main {
             manager.addStudent(student);
         }
 
+        UserManager userManager = new UserManager();
+
+        UserFileManager userFileManager = new UserFileManager();
+        userFileManager.createFileIfMissing();
+
+        for (User user : userFileManager.loadUsers()) {
+            userManager.addUser(user);
+        }
+
         int choice = 0;
+
+        int authChoice = 0;
+        boolean loggedIn = false;
+
+        while (authChoice != 3) {
+
+            System.out.println("\n=== Secure Student Records ===");
+            System.out.println("1. Register");
+            System.out.println("2. Login");
+            System.out.println("3. Exit");
+
+            System.out.print("Choose an option: ");
+            authChoice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (authChoice == 1) {
+
+                System.out.print("Enter username: ");
+                String username = scanner.nextLine();
+
+                if (userManager.usernameExists(username)) {
+                    System.out.println("Username already exists.");
+                    continue;
+                }
+
+                System.out.print("Enter password: ");
+                String password = scanner.nextLine();
+
+                User user = userManager.registerUser(username, password);
+
+                userFileManager.saveUser(user);
+
+
+                System.out.println("Registration successful.");
+
+            } else if (authChoice == 2) {
+                System.out.print("Enter username: ");
+                String username = scanner.nextLine();
+
+                System.out.print("Enter password: ");
+                String password = scanner.nextLine();
+
+                if (userManager.login(username, password)) {
+                    System.out.println("Login successful.");
+                    loggedIn = true;
+                    break;
+
+                } else {
+                    System.out.println("Invalid username or password.");
+                }
+
+
+
+            } else if (authChoice == 3) {
+
+                System.out.println("Logged out successfully.");
+
+            } else {
+
+                System.out.println("Invalid option.");
+            }
+        }
+
+        if (!loggedIn) {
+            scanner.close();
+            return;
+        }
 
         while (choice != 4) {
 
@@ -23,7 +99,7 @@ public class Main {
             System.out.println("1. Add student");
             System.out.println("2. View students");
             System.out.println("3. Search student");
-            System.out.println("4. Exit");
+            System.out.println("4. Logout");
 
             System.out.print("Choose an option: ");
 
@@ -104,7 +180,7 @@ public class Main {
                 }
 
             } else if (choice == 4) {
-                System.out.println("Goodbye!");
+                System.out.println("Logged out successfully.");
             } else {
                 System.out.println("Invalid option.");
             }

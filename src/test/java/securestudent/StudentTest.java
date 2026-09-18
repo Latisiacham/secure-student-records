@@ -3,6 +3,7 @@ package securestudent;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class StudentTest {
 
@@ -45,5 +46,75 @@ public class StudentTest {
 
         assertEquals(true, manager.studentIdExists(1));
         assertEquals(false, manager.studentIdExists(2));
+    }
+
+    @Test
+    void shouldHashPassword() {
+        PasswordHasher hasher = new PasswordHasher();
+
+        String password = "MyPassword123";
+        String salt = hasher.generateSalt();
+
+        String hash = hasher.hashPassword(password, salt);
+
+        assertNotEquals(password, hash);
+    }
+
+    @Test
+    void shouldCreateDifferentHashesWithDifferentSalts() {
+        PasswordHasher hasher = new PasswordHasher();
+
+        String password = "MyPassword123";
+
+        String saltOne = hasher.generateSalt();
+        String saltTwo = hasher.generateSalt();
+
+        String hashOne = hasher.hashPassword(password, saltOne);
+        String hashTwo = hasher.hashPassword(password, saltTwo);
+
+        assertNotEquals(hashOne, hashTwo);
+    }
+
+    @Test
+    void shouldRegisterUserWithHashedPassword() {
+        UserManager manager = new UserManager();
+
+        String password = "MyPassword123";
+
+        manager.registerUser("bonita", password);
+
+        User user = manager.getUsers().get(0);
+
+        assertEquals("bonita", user.getUsername());
+        assertNotEquals(password, user.getPasswordHash());
+    }
+
+    @Test
+    void shouldDetectDuplicateUsername() {
+        UserManager manager = new UserManager();
+
+        manager.registerUser("bonita", "MyPassword123");
+
+        assertEquals(true, manager.usernameExists("bonita"));
+        assertEquals(true, manager.usernameExists("BONITA"));
+        assertEquals(false, manager.usernameExists("landu"));
+    }
+
+    @Test
+    void shouldLoginWithCorrectPassword() {
+        UserManager manager = new UserManager();
+
+        manager.registerUser("bonita", "MyPassword123");
+
+        assertEquals(true, manager.login("bonita", "MyPassword123"));
+    }
+
+    @Test
+    void shouldRejectIncorrectPassword() {
+        UserManager manager = new UserManager();
+
+        manager.registerUser("bonita", "MyPassword123");
+
+        assertEquals(false, manager.login("bonita", "WrongPassword"));
     }
 }
