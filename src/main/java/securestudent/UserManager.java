@@ -12,7 +12,7 @@ public class UserManager {
         String salt = passwordHasher.generateSalt();
         String passwordHash = passwordHasher.hashPassword(password, salt);
 
-        User user = new User(username, passwordHash, salt);
+        User user = new User(username, passwordHash, salt, "USER");
 
         users.add(user);
         
@@ -51,5 +51,30 @@ public class UserManager {
 
     public void addUser(User user) {
         users.add(user);
+    }
+
+    public User findUser(String username) {
+        for (User user : users) {
+            if (user.getUsername().equalsIgnoreCase(username)) {
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+    public boolean isAdmin(User user) {
+        return user != null && user.getRole().equals("ADMIN");
+    }
+
+    public User createAdmin(String username, String password) {
+        String salt = passwordHasher.generateSalt();
+        String passwordHash = passwordHasher.hashPassword(password, salt);
+
+        User admin = new User(username, passwordHash, salt, "ADMIN");
+
+        users.add(admin);
+
+        return admin;
     }
 }

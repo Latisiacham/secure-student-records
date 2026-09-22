@@ -28,6 +28,7 @@ public class Main {
 
         int authChoice = 0;
         boolean loggedIn = false;
+        User loggedInUser = null;
 
         while (authChoice != 3) {
 
@@ -68,8 +69,12 @@ public class Main {
                 String password = scanner.nextLine();
 
                 if (userManager.login(username, password)) {
-                    System.out.println("Login successful.");
+                    loggedInUser = userManager.findUser(username);
                     loggedIn = true;
+
+                    System.out.println("Login successful.");
+                    System.out.println("Role: " + loggedInUser.getRole());
+
                     break;
 
                 } else {
@@ -106,6 +111,10 @@ public class Main {
             choice = scanner.nextInt();
             
             if (choice == 1) {
+                if (!loggedInUser.getRole().equals("ADMIN")) {
+                    System.out.println("Access denied. Admin permission required.");
+                    continue;
+                }
 
                 System.out.print("Enter student ID: ");
                 int id = scanner.nextInt();

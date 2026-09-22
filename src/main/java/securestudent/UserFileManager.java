@@ -31,7 +31,8 @@ public class UserFileManager {
             writer.write(
                 user.getUsername() + ","
                 + user.getPasswordHash() + ","
-                + user.getSalt()
+                + user.getSalt() + ","
+                + user.getRole()
                 + System.lineSeparator()
             );
 
@@ -49,7 +50,7 @@ public class UserFileManager {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                if (parts.length != 3) {
+                if (parts.length != 4) {
                     System.out.println("Skipping invalid user record.");
                     continue;
                 }
@@ -57,8 +58,9 @@ public class UserFileManager {
                 String username = parts[0];
                 String passwordHash = parts[1];
                 String salt = parts[2];
+                String role = parts[3];
 
-                users.add(new User(username, passwordHash, salt));
+                users.add(new User(username, passwordHash, salt, role));
             }
 
         } catch (IOException e) {

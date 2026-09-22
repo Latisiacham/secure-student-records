@@ -117,4 +117,37 @@ public class StudentTest {
 
         assertEquals(false, manager.login("bonita", "WrongPassword"));
     }
+
+    @Test
+    void shouldFindUserByUsername() {
+        UserManager manager = new UserManager();
+
+        manager.registerUser("Latisia", "Test12345");
+
+        User user = manager.findUser("Latisia");
+
+        assertEquals("Latisia", user.getUsername());
+        assertEquals("USER", user.getRole());
+    }
+
+    @Test
+    void shouldRejectUserWithoutAdminRole() {
+        UserManager manager = new UserManager();
+
+        manager.registerUser("Latisia", "Test12345");
+
+        User user = manager.findUser("Latisia");
+
+        assertEquals(false, manager.isAdmin(user));
+    }
+
+    @Test
+    void shouldCreateAdminUser() {
+        UserManager manager = new UserManager();
+
+        User admin = manager.createAdmin("testadmin", "TestPassword123!");
+
+        assertEquals("ADMIN", admin.getRole());
+        assertEquals(true, manager.isAdmin(admin));
+    }
 }

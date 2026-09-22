@@ -1,0 +1,11 @@
+# Maven build files
+target/
+
+# VS Code
+.vscode/
+
+# Operating system files
+.DS_Store
+
+# Authentication data
+data/users.txt

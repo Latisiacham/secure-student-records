@@ -5,11 +5,13 @@ public class User {
     private String username;
     private String passwordHash;
     private String salt;
+    private String role;
 
-    public User(String username, String passwordHash, String salt) {
+    public User(String username, String passwordHash, String salt, String role) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.salt = salt;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -22,5 +24,9 @@ public class User {
 
     public String getSalt() {
         return salt;
+    }
+
+    public String getRole() {
+        return role;
     }
 }
