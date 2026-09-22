@@ -150,4 +150,26 @@ public class StudentTest {
         assertEquals("ADMIN", admin.getRole());
         assertEquals(true, manager.isAdmin(admin));
     }
+
+    @Test
+    void shouldValidateUsername() {
+        UserManager manager = new UserManager();
+
+        assertEquals(true, manager.isValidUsername("Latisia"));
+        assertEquals(false, manager.isValidUsername(""));
+        assertEquals(false, manager.isValidUsername("  "));
+        assertEquals(false, manager.isValidUsername("ab"));
+        assertEquals(false, manager.isValidUsername("Bonita,Admin"));
+    }
+
+    @Test
+    void shouldValidatePassword() {
+        UserManager manager = new UserManager();
+
+        assertEquals(true, manager.isValidPassword("Secure123"));
+        assertEquals(false, manager.isValidPassword("short1A"));
+        assertEquals(false, manager.isValidPassword("secure123"));
+        assertEquals(false, manager.isValidPassword("SECURE123"));
+        assertEquals(false, manager.isValidPassword("SecurePass"));
+    }
 }

@@ -46,6 +46,11 @@ public class Main {
                 System.out.print("Enter username: ");
                 String username = scanner.nextLine();
 
+                if (!userManager.isValidUsername(username)) {
+                    System.out.println("Invalid username. Username must be at least 3 characters.");
+                    continue;
+                }
+
                 if (userManager.usernameExists(username)) {
                     System.out.println("Username already exists.");
                     continue;
@@ -53,6 +58,14 @@ public class Main {
 
                 System.out.print("Enter password: ");
                 String password = scanner.nextLine();
+
+                if (!userManager.isValidPassword(password)) {
+                    System.out.println(
+                        "Invalid password. Use at least 8 characters with uppercase, lowercase, and a number."
+                    );
+                    continue;
+                }
+
 
                 User user = userManager.registerUser(username, password);
 

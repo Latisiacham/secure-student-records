@@ -77,4 +77,19 @@ public class UserManager {
 
         return admin;
     }
+
+    public boolean isValidUsername(String username) {
+        return username != null
+                && !username.trim().isEmpty()
+                && username.length() >= 3
+                && !username.contains(",");
+    }
+
+    public boolean isValidPassword(String password) {
+        return password != null
+                && password.length() >= 8
+                && password.matches(".*[A-Z].*")
+                && password.matches(".*[a-z].*")
+                && password.matches(".*[0-9].*");
+    }
 }
