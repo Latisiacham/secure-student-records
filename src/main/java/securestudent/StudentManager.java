@@ -19,7 +19,8 @@ public class StudentManager {
         return email != null
                 && email.contains("@")
                 && email.contains(".")
-                && !email.contains(" ");
+                && !email.contains(" ")
+                && !email.contains(",");
     }
 
     public boolean studentIdExists(int id) {
@@ -30,5 +31,11 @@ public class StudentManager {
         }
 
         return false;
+    }
+
+    public boolean isValidName(String name) {
+        return name != null
+                && !name.trim().isEmpty()
+                && !name.contains(",");
     }
 }

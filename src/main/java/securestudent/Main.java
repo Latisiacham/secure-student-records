@@ -142,6 +142,11 @@ public class Main {
                 System.out.print("Enter student name: ");
                 String name = scanner.nextLine();
 
+                if (!manager.isValidName(name)) {
+                    System.out.println("Invalid student name.");
+                    continue;
+                }
+
                 System.out.print("Enter student email: ");
                 String email = scanner.nextLine();
                 

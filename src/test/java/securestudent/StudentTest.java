@@ -35,6 +35,7 @@ public class StudentTest {
         assertEquals(true, manager.isValidEmail("student@example.com"));
         assertEquals(false, manager.isValidEmail("studentexample.com"));
         assertEquals(false, manager.isValidEmail("student @example.com"));
+        assertEquals(false, manager.isValidEmail("student,test@example.com"));
     }
 
     @Test
@@ -171,5 +172,85 @@ public class StudentTest {
         assertEquals(false, manager.isValidPassword("secure123"));
         assertEquals(false, manager.isValidPassword("SECURE123"));
         assertEquals(false, manager.isValidPassword("SecurePass"));
+    }
+
+    @Test
+    void shouldNotStorePlainTextPassword() {
+        UserManager manager = new UserManager();
+
+        String password = "Secure123";
+
+        User user = manager.registerUser("securitytest", password);
+
+        assertNotEquals(password, user.getPasswordHash());
+    }
+
+    @Test
+    void shouldDetectUsernameRegardlessOfCase() {
+        UserManager manager = new UserManager();
+
+        manager.registerUser("Latisia", "Secure123");
+
+        assertEquals(true, manager.usernameExists("latisia"));
+        assertEquals(true, manager.usernameExists("LATISIA"));
+    }
+
+    @Test
+    void shouldRejectUnknownUser() {
+        UserManager manager = new UserManager();
+
+        manager.registerUser("Latisia", "Secure123");
+
+        assertEquals(false, manager.login("unknownuser", "Secure123"));
+    }
+
+    @Test
+    void shouldRejectInvalidAdminRole() {
+        UserManager manager = new UserManager();
+
+        User user = new User(
+            "attacker",
+            "fakeHash",
+            "fakeSalt",
+            "SUPERADMIN"
+        );
+
+        assertEquals(false, manager.isAdmin(user));
+    }
+
+    @Test
+    void shouldRejectNullUserAsAdmin() {
+        UserManager manager = new UserManager();
+
+        assertEquals(false, manager.isAdmin(null));
+    }
+
+    @Test
+    void shouldRejectUsernameThatCouldBreakFileFormat() {
+        UserManager manager = new UserManager();
+
+        assertEquals(false, manager.isValidUsername("admin,ADMIN"));
+    }
+
+    @Test
+    void shouldDetectDuplicateStudentIdForSecurity() {
+        StudentManager manager = new StudentManager();
+
+        manager.addStudent(
+            new Student(100, "Student One", "one@example.com")
+        );
+
+        assertEquals(true, manager.studentIdExists(100));
+        assertEquals(false, manager.studentIdExists(200));
+    }
+
+    @Test
+    void shouldValidateStudentName() {
+        StudentManager manager = new StudentManager();
+
+        assertEquals(true, manager.isValidName("Latisia Cham"));
+        assertEquals(false, manager.isValidName(""));
+        assertEquals(false, manager.isValidName("   "));
+        assertEquals(false, manager.isValidName("Latisia,Admin"));
     }
 }
