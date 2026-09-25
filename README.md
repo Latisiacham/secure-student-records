@@ -149,3 +149,6 @@ This project was created as a cybersecurity-focused Java portfolio project to pr
 It demonstrates how security can be considered throughout application development, including authentication, password protection, authorization, input validation, secure handling of sensitive data, and security testing.
 
 The application is intended for educational and portfolio purposes and is not designed for production use.
+
+# Verification Code
+WTC-2VM4NLNX
